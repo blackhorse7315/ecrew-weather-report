@@ -742,6 +742,13 @@
                 // Parsing Data Reports
                 if (cloudData.reports && cloudData.reports.length > 0) {
                     reportsList = cloudData.reports.reverse(); // Reverse agar data terbaru di atas
+                    
+                    // Bersihkan format tanggal ISO dari Google Sheets menjadi YYYY-MM-DD
+                    reportsList.forEach(r => {
+                        if (r.date && r.date.includes('T')) {
+                            r.date = r.date.split('T')[0];
+                        }
+                    });
                 } else {
                     reportsList = [];
                 }
@@ -1107,6 +1114,9 @@
             document.getElementById('form-tafor').value = report.tafor;
             document.getElementById('form-notam').value = report.notam;
             document.getElementById('form-prepared-by').value = report.preparedBy;
+            
+            // Perbaikan nilai undefined menjadi string kosong
+            document.getElementById('form-airways').value = report.airways || "";
 
             // Muat kembali value base64 gambar peta cuaca dan arah angin
             document.getElementById('weather-base64').value = report.weatherImg || "";
@@ -1202,6 +1212,9 @@
             document.getElementById('form-tafor').value = report.tafor;
             document.getElementById('form-notam').value = report.notam;
             document.getElementById('form-prepared-by').value = report.preparedBy;
+            
+            // Perbaikan nilai undefined menjadi string kosong
+            document.getElementById('form-airways').value = report.airways || "";
 
             // Muat kembali value base64 gambar peta cuaca dan arah angin
             document.getElementById('weather-base64').value = report.weatherImg || "";
@@ -1254,12 +1267,19 @@
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-900/60 border-b border-slate-800 transition-colors";
                 
-                // Ubah format tanggal (YYYY-MM-DD menjadi DD-MM-YYYY) untuk tampilan tabel
+                // Ubah format tanggal (YYYY-MM-DD menjadi DD-MM-YYYY) untuk tampilan tabel dengan aman
                 let displayDate = report.date;
-                if (displayDate && displayDate.includes('-')) {
-                    const parts = displayDate.split('-');
-                    if (parts.length === 3) {
-                        displayDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                if (displayDate) {
+                    // Berjaga-jaga jika masih ada format waktu (T)
+                    if (displayDate.includes('T')) {
+                        displayDate = displayDate.split('T')[0];
+                    }
+                    if (displayDate.includes('-')) {
+                        const parts = displayDate.split('-');
+                        if (parts.length >= 3) {
+                            const day = parts[2].substring(0, 2); // Mencegah teks sisa waktu terbawa
+                            displayDate = `${day}-${parts[1]}-${parts[0]}`;
+                        }
                     }
                 }
 
@@ -1279,7 +1299,7 @@
                     <td class="p-4">
                         <div class="text-xs">
                             <span class="block font-bold text-slate-200">${report.departure} &rarr; ${report.destination}</span>
-                            <span class="block text-slate-500">Airways: ${report.airways}</span>
+                            <span class="block text-slate-500">Airways: ${report.airways || '-'}</span>
                         </div>
                     </td>
                     <td class="p-4 text-right">
@@ -1499,7 +1519,7 @@
             document.getElementById('print-aircraft').textContent = report.aircraft;
             document.getElementById('print-dep').textContent = report.departure;
             document.getElementById('print-dst').textContent = report.destination;
-            document.getElementById('print-airways').textContent = report.airways;
+            document.getElementById('print-airways').textContent = report.airways || '-';
             
             document.getElementById('print-pic').textContent = report.pic;
             document.getElementById('print-sic').textContent = report.sic;
