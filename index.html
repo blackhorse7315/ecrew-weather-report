@@ -537,20 +537,20 @@
                     <div>
                         <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-200 pb-1 mb-3">Flight Information</h3>
                         <div class="space-y-2 text-sm">
-                            <div class="flex justify-between"><span class="font-semibold text-slate-500">Date:</span> <span id="print-date" class="font-bold text-slate-900"></span></div>
-                            <div class="flex justify-between"><span class="font-semibold text-slate-500">Aircraft:</span> <span id="print-aircraft" class="font-bold text-slate-900"></span></div>
-                            <div class="flex justify-between"><span class="font-semibold text-slate-500">Departure:</span> <span id="print-dep" class="font-bold text-slate-900 uppercase"></span></div>
-                            <div class="flex justify-between"><span class="font-semibold text-slate-500">Destination:</span> <span id="print-dst" class="font-bold text-slate-900 uppercase"></span></div>
-                            <div class="flex justify-between"><span class="font-semibold text-slate-500">Airways:</span> <span id="print-airways" class="font-bold text-slate-900 uppercase"></span></div>
+                            <div class="flex"><span class="font-semibold text-slate-500 w-28">Date</span><span class="font-semibold text-slate-500 mr-2">:</span> <span id="print-date" class="font-bold text-slate-900 flex-1"></span></div>
+                            <div class="flex"><span class="font-semibold text-slate-500 w-28">Aircraft</span><span class="font-semibold text-slate-500 mr-2">:</span> <span id="print-aircraft" class="font-bold text-slate-900 flex-1"></span></div>
+                            <div class="flex"><span class="font-semibold text-slate-500 w-28">Departure</span><span class="font-semibold text-slate-500 mr-2">:</span> <span id="print-dep" class="font-bold text-slate-900 uppercase flex-1"></span></div>
+                            <div class="flex"><span class="font-semibold text-slate-500 w-28">Destination</span><span class="font-semibold text-slate-500 mr-2">:</span> <span id="print-dst" class="font-bold text-slate-900 uppercase flex-1"></span></div>
+                            <div class="flex"><span class="font-semibold text-slate-500 w-28">Airways</span><span class="font-semibold text-slate-500 mr-2">:</span> <span id="print-airways" class="font-bold text-slate-900 uppercase flex-1"></span></div>
                         </div>
                     </div>
                     <div>
                         <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-200 pb-1 mb-3">Crew Information</h3>
                         <div class="space-y-2 text-sm">
-                            <div class="flex justify-between"><span class="font-semibold text-slate-500">PIC:</span> <span id="print-pic" class="font-bold text-slate-900 uppercase"></span></div>
-                            <div class="flex justify-between"><span class="font-semibold text-slate-500">SIC:</span> <span id="print-sic" class="font-bold text-slate-900 uppercase"></span></div>
-                            <div class="flex justify-between"><span class="font-semibold text-slate-500">Flight Eng 1:</span> <span id="print-eng1" class="font-bold text-slate-900 uppercase"></span></div>
-                            <div class="flex justify-between"><span class="font-semibold text-slate-500">Flight Eng 2:</span> <span id="print-eng2" class="font-bold text-slate-900 uppercase"></span></div>
+                            <div class="flex"><span class="font-semibold text-slate-500 w-28">PIC</span><span class="font-semibold text-slate-500 mr-2">:</span> <span id="print-pic" class="font-bold text-slate-900 uppercase flex-1"></span></div>
+                            <div class="flex"><span class="font-semibold text-slate-500 w-28">SIC</span><span class="font-semibold text-slate-500 mr-2">:</span> <span id="print-sic" class="font-bold text-slate-900 uppercase flex-1"></span></div>
+                            <div class="flex"><span class="font-semibold text-slate-500 w-28">Eng 1</span><span class="font-semibold text-slate-500 mr-2">:</span> <span id="print-eng1" class="font-bold text-slate-900 uppercase flex-1"></span></div>
+                            <div class="flex"><span class="font-semibold text-slate-500 w-28">Eng 2</span><span class="font-semibold text-slate-500 mr-2">:</span> <span id="print-eng2" class="font-bold text-slate-900 uppercase flex-1"></span></div>
                         </div>
                     </div>
                 </div>
@@ -629,7 +629,7 @@
         let adminFormNo = "FM-OPS-01/REV.02"; // Fallback default
 
         // --- CONSTANTS ---
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzlaj-cBfbkDJ-QCd6wIXaScVArgU084olw8nV32x1C6OROlo3CwfqTugidPTXXmUBPTg/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx1zZN4BBKezcOsoCk8whiCgw_lHlrRNLTabHziLYuhEGdWTa6MQG3wC0gXdAnN7cd3rg/exec";
         const BLANK_IMG = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         
         // Mock Images properly URI Encoded to prevent image loading errors
@@ -1033,22 +1033,60 @@
             }
         }
 
+        // --- NEW: FUNGSI COMPRESS & PREVIEW GAMBAR ---
         function previewImage(event, containerId, base64Id) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const result = e.target.result;
-                    document.getElementById(base64Id).value = result;
-                    
-                    const container = document.getElementById(containerId);
-                    container.innerHTML = `
-                        <img src="${result}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Landscape preview">
-                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20">
-                            <span class="text-white text-xs font-bold bg-slate-900/80 px-3 py-1.5 rounded-lg">Change Image</span>
-                        </div>
-                    `;
-                    showNotification("Image uploaded successfully!", "success");
+                    const img = new Image();
+                    img.onload = function() {
+                        // Proses Kompresi Ekstrem via Canvas API agar muat di batas limit sel Google Sheets (50.000 karakter)
+                        const canvas = document.createElement('canvas');
+                        // Batasi resolusi ke ukuran sangat kecil (400x225) agar JSON string Base64 tidak ditolak Sheet
+                        const MAX_WIDTH = 400; 
+                        const MAX_HEIGHT = 225;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Gambar putih sebagai background default jika PNG transparan
+                        ctx.fillStyle = "#ffffff";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // Kompresi ke format JPEG dengan kualitas 0.25 (Memprioritaskan ukuran ringan untuk Cloud)
+                        const resultBase64 = canvas.toDataURL('image/jpeg', 0.25);
+
+                        // Simpan hasil JSON/Base64 ke input hidden
+                        document.getElementById(base64Id).value = resultBase64;
+                        
+                        // Tampilkan ke UI Preview
+                        const container = document.getElementById(containerId);
+                        container.innerHTML = `
+                            <img src="${resultBase64}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Landscape preview">
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20">
+                                <span class="text-white text-xs font-bold bg-slate-900/80 px-3 py-1.5 rounded-lg">Change Image</span>
+                            </div>
+                        `;
+                        showNotification("Image maximally compressed for safe Cloud Sync!", "success");
+                    };
+                    img.src = e.target.result;
                 }
                 reader.readAsDataURL(file);
             }
@@ -1251,6 +1289,35 @@
             }, 150);
         }
 
+        // --- NEW: FUNGSI TOGGLE ACCORDION GROUP ---
+        function toggleGroup(reg) {
+            const rows = document.querySelectorAll(`.group-item-${reg}`);
+            const headerRow = document.querySelector(`tr[data-reg="${reg}"]`);
+            if (!headerRow) return;
+            
+            const icon = headerRow.querySelector('.group-icon');
+            
+            let isCurrentlyHidden = true;
+            if (rows.length > 0) {
+                isCurrentlyHidden = rows[0].classList.contains('hidden');
+            }
+
+            rows.forEach(row => {
+                if (isCurrentlyHidden) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            if (isCurrentlyHidden) {
+                icon.style.transform = 'rotate(180deg)';
+                icon.style.transition = 'transform 0.3s ease';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
         function refreshDashboard() {
             const tbody = document.getElementById('reports-table-body');
             tbody.innerHTML = '';
@@ -1263,63 +1330,101 @@
                 return;
             }
 
-            reportsList.forEach((report) => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-900/60 border-b border-slate-800 transition-colors";
-                
-                // Ubah format tanggal (YYYY-MM-DD menjadi DD-MM-YYYY) untuk tampilan tabel dengan aman
-                let displayDate = report.date;
-                if (displayDate) {
-                    // Berjaga-jaga jika masih ada format waktu (T)
-                    if (displayDate.includes('T')) {
-                        displayDate = displayDate.split('T')[0];
-                    }
-                    if (displayDate.includes('-')) {
-                        const parts = displayDate.split('-');
-                        if (parts.length >= 3) {
-                            const day = parts[2].substring(0, 2); // Mencegah teks sisa waktu terbawa
-                            displayDate = `${day}-${parts[1]}-${parts[0]}`;
-                        }
-                    }
-                }
+            // 1. Grouping Data by Aircraft Registration
+            const groupedReports = {};
+            reportsList.forEach(report => {
+                const reg = report.aircraft || 'Unknown';
+                if (!groupedReports[reg]) groupedReports[reg] = [];
+                groupedReports[reg].push(report);
+            });
 
-                tr.innerHTML = `
-                    <td class="p-4 font-semibold text-white font-mono">${displayDate}</td>
-                    <td class="p-4">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-amber-500/10 text-amber-500 border border-amber-500/25">
-                            ${report.aircraft}
-                        </span>
-                    </td>
-                    <td class="p-4">
-                        <div class="text-xs">
-                            <span class="block font-bold text-slate-200">PIC: ${report.pic}</span>
-                            <span class="block text-slate-500">SIC: ${report.sic}</span>
-                        </div>
-                    </td>
-                    <td class="p-4">
-                        <div class="text-xs">
-                            <span class="block font-bold text-slate-200">${report.departure} &rarr; ${report.destination}</span>
-                            <span class="block text-slate-500">Airways: ${report.airways || '-'}</span>
-                        </div>
-                    </td>
-                    <td class="p-4 text-right">
-                        <div class="flex items-center justify-end space-x-2">
-                            <button onclick="viewReportDetails('${report.id}')" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-all text-xs font-semibold inline-flex items-center" title="View / Print Document">
-                                View / Print
-                            </button>
-                            <button onclick="editReport('${report.id}')" class="p-2 rounded-lg bg-slate-900/50 border border-slate-800 text-amber-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" title="Edit Data Laporan">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                            </button>
-                            <button onclick="duplicateReport('${report.id}')" class="p-2 rounded-lg bg-slate-900/50 border border-slate-800 text-sky-500 hover:text-sky-400 hover:bg-sky-500/10 transition-colors" title="Duplikasi Kerangka Laporan">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                            </button>
-                            <button onclick="deleteReport('${report.id}')" class="p-2 rounded-lg bg-slate-900/50 border border-slate-800 text-rose-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" title="Hapus Laporan">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                            </button>
+            // 2. Render Data (Group Header & Hidden Items)
+            Object.keys(groupedReports).sort().forEach(reg => {
+                
+                // Sort by Date Descending (Terbaru paling atas)
+                groupedReports[reg].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                // Create Group Header Row
+                const headerTr = document.createElement('tr');
+                headerTr.className = "bg-slate-800/80 cursor-pointer hover:bg-slate-700/80 transition-colors border-b border-slate-700 group-header-row";
+                headerTr.setAttribute('data-reg', reg);
+                headerTr.onclick = () => toggleGroup(reg);
+                
+                headerTr.innerHTML = `
+                    <td colspan="5" class="p-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-amber-500/20 text-amber-500">
+                                    <svg class="group-icon w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </span>
+                                <span class="font-extrabold text-white text-base tracking-wider">${reg}</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-900 text-slate-400 border border-slate-600">${groupedReports[reg].length} Reports</span>
+                            </div>
+                            <span class="text-xs text-slate-500 font-medium mr-2">Click to expand</span>
                         </div>
                     </td>
                 `;
-                tbody.appendChild(tr);
+                tbody.appendChild(headerTr);
+
+                // Create Item Rows (Default: Hidden)
+                groupedReports[reg].forEach((report) => {
+                    const tr = document.createElement('tr');
+                    tr.className = `group-item-${reg} hidden hover:bg-slate-900/80 border-b border-slate-800 transition-colors bg-slate-950`;
+                    
+                    // Format Date (DD Month YYYY)
+                    let displayDate = report.date;
+                    if (displayDate) {
+                        if (displayDate.includes('T')) displayDate = displayDate.split('T')[0];
+                        if (displayDate.includes('-')) {
+                            const parts = displayDate.split('-');
+                            if (parts.length >= 3) {
+                                const day = parts[2].substring(0, 2);
+                                const monthIndex = parseInt(parts[1], 10) - 1;
+                                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                                const month = monthNames[monthIndex] || parts[1];
+                                displayDate = `${day} ${month} ${parts[0]}`;
+                            }
+                        }
+                    }
+
+                    tr.innerHTML = `
+                        <td class="p-4 font-semibold text-white font-mono pl-14">${displayDate}</td>
+                        <td class="p-4">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-amber-500/10 text-amber-500 border border-amber-500/25">
+                                ${report.aircraft}
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <div class="text-xs">
+                                <span class="block font-bold text-slate-200">PIC: ${report.pic}</span>
+                                <span class="block text-slate-500">SIC: ${report.sic}</span>
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            <div class="text-xs">
+                                <span class="block font-bold text-slate-200">${report.departure} &rarr; ${report.destination}</span>
+                                <span class="block text-slate-500">Airways: ${report.airways || '-'}</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-right">
+                            <div class="flex items-center justify-end space-x-2">
+                                <button onclick="viewReportDetails('${report.id}')" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-all text-xs font-semibold inline-flex items-center" title="View / Print Document">
+                                    View / Print
+                                </button>
+                                <button onclick="editReport('${report.id}')" class="p-2 rounded-lg bg-slate-900/50 border border-slate-800 text-amber-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors" title="Edit Data Laporan">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                </button>
+                                <button onclick="duplicateReport('${report.id}')" class="p-2 rounded-lg bg-slate-900/50 border border-slate-800 text-sky-500 hover:text-sky-400 hover:bg-sky-500/10 transition-colors" title="Duplikasi Kerangka Laporan">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                </button>
+                                <button onclick="deleteReport('${report.id}')" class="p-2 rounded-lg bg-slate-900/50 border border-slate-800 text-rose-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" title="Hapus Laporan">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
             });
 
             updateStats();
@@ -1360,35 +1465,59 @@
             const query = document.getElementById('search-input').value.toLowerCase();
             const aircraftFilter = document.getElementById('filter-aircraft').value;
             const tbody = document.getElementById('reports-table-body');
+            
+            const isFiltering = query !== "" || aircraftFilter !== "";
+
+            if (!isFiltering) {
+                // Jika tidak ada filter yang aktif, kembalikan ke kondisi group collapsed
+                refreshDashboard();
+                return;
+            }
 
             const existingEmpty = document.getElementById('empty-state');
             if (existingEmpty) {
                 existingEmpty.remove();
             }
 
-            const rows = tbody.querySelectorAll('tr');
-            let visibleCount = 0;
+            const groupHeaders = tbody.querySelectorAll('.group-header-row');
+            let totalVisibleItems = 0;
 
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                const matchesSearch = text.includes(query);
-                
-                let matchesAircraft = true;
-                if (aircraftFilter) {
-                    const span = row.querySelector('span');
-                    const aircraftCell = span ? span.textContent.trim() : '';
-                    matchesAircraft = (aircraftCell === aircraftFilter);
-                }
+            groupHeaders.forEach(header => {
+                const reg = header.getAttribute('data-reg');
+                const items = tbody.querySelectorAll(`.group-item-${reg}`);
+                let groupVisibleCount = 0;
 
-                if (matchesSearch && matchesAircraft) {
-                    row.classList.remove('hidden');
-                    visibleCount++;
+                const matchesAircraft = aircraftFilter === "" || reg === aircraftFilter;
+
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    const matchesSearch = text.includes(query);
+                    
+                    if (matchesSearch && matchesAircraft) {
+                        item.classList.remove('hidden');
+                        groupVisibleCount++;
+                        totalVisibleItems++;
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+
+                if (groupVisibleCount > 0) {
+                    header.classList.remove('hidden');
+                    // Membuka icon secara otomatis karena sedang difilter
+                    const icon = header.querySelector('.group-icon');
+                    if(icon) {
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                    // Update teks lencana sementara waktu sesuai jumlah hasil filter
+                    const countBadge = header.querySelector('.rounded-full');
+                    if (countBadge) countBadge.textContent = `${groupVisibleCount} Matches`;
                 } else {
-                    row.classList.add('hidden');
+                    header.classList.add('hidden');
                 }
             });
 
-            if (visibleCount === 0 && emptyStateHtml) {
+            if (totalVisibleItems === 0 && emptyStateHtml) {
                 tbody.insertAdjacentHTML('beforeend', emptyStateHtml);
             }
         }
@@ -1439,9 +1568,10 @@
             if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE") {
                 try {
                     const sheetPayload = { ...activeReport };
-                    delete sheetPayload.weatherImg;
-                    delete sheetPayload.windImg;
-                    delete sheetPayload.signatureImg;
+                    
+                    // KODE DIHAPUS: Sebelumnya kita menghapus image dari payload (delete sheetPayload.weatherImg, dll).
+                    // Sekarang dibiarkan tetap ada agar dikirim sebagai JSON string ke Google Sheets.
+                    
                     sheetPayload.syncAction = editingReportId ? "update" : "create";
 
                     await fetch(GOOGLE_SCRIPT_URL, {
@@ -1515,7 +1645,23 @@
             // Print label 'Form No' mengikuti report terkait
             document.getElementById('print-form-no').textContent = report.formNo || adminFormNo; 
             
-            document.getElementById('print-date').textContent = report.date;
+            // Format ulang tanggal untuk khusus tampilan Print/Detail (YYYY-MM-DD ke DD Month YYYY)
+            let printDateFormatted = report.date;
+            if (printDateFormatted) {
+                if (printDateFormatted.includes('T')) printDateFormatted = printDateFormatted.split('T')[0];
+                if (printDateFormatted.includes('-')) {
+                    const parts = printDateFormatted.split('-');
+                    if (parts.length >= 3) {
+                        const day = parts[2].substring(0, 2);
+                        const monthIndex = parseInt(parts[1], 10) - 1;
+                        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                        const month = monthNames[monthIndex] || parts[1];
+                        printDateFormatted = `${day} ${month} ${parts[0]}`;
+                    }
+                }
+            }
+            
+            document.getElementById('print-date').textContent = printDateFormatted;
             document.getElementById('print-aircraft').textContent = report.aircraft;
             document.getElementById('print-dep').textContent = report.departure;
             document.getElementById('print-dst').textContent = report.destination;
