@@ -410,7 +410,8 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Upload Weather Image (Landscape) *</label>
                             <div class="border-2 border-dashed border-slate-800 hover:border-violet-500 transition-colors rounded-xl p-4 bg-slate-900 flex flex-col items-center justify-center text-center relative min-h-[220px]">
-                                <input type="file" id="form-weather-img" accept="image/*" onchange="previewImage(event, 'weather-preview-container', 'weather-base64')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                <!-- Perbaikan z-index menjadi z-30 agar tidak tertutup teks hover -->
+                                <input type="file" id="form-weather-img" accept="image/*" onchange="previewImage(event, 'weather-preview-container', 'weather-base64')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-30">
                                 
                                 <div id="weather-preview-container" class="w-full h-full flex flex-col items-center justify-center">
                                     <svg class="mx-auto h-12 w-12 text-slate-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a1 1 0 011.414 0L15 17m0 0l-1.414-1.414a1 1 0 010-1.414l3.586-3.586a1 1 0 011.414 0L21 15m-7-7h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -419,18 +420,13 @@
                                 </div>
                                 <input type="hidden" id="weather-base64">
                             </div>
-                            <div class="mt-2 flex justify-end">
-                                <button type="button" onclick="loadSampleImage('weather', 'weather-preview-container', 'weather-base64')" class="text-xs font-semibold text-amber-500 hover:text-amber-400 transition-colors flex items-center">
-                                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                    Use Mock/Sample Image
-                                </button>
-                            </div>
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Upload Wind Chart Image (Landscape) *</label>
                             <div class="border-2 border-dashed border-slate-800 hover:border-violet-500 transition-colors rounded-xl p-4 bg-slate-900 flex flex-col items-center justify-center text-center relative min-h-[220px]">
-                                <input type="file" id="form-wind-img" accept="image/*" onchange="previewImage(event, 'wind-preview-container', 'wind-base64')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                <!-- Perbaikan z-index menjadi z-30 agar tidak tertutup teks hover -->
+                                <input type="file" id="form-wind-img" accept="image/*" onchange="previewImage(event, 'wind-preview-container', 'wind-base64')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-30">
                                 
                                 <div id="wind-preview-container" class="w-full h-full flex flex-col items-center justify-center">
                                     <svg class="mx-auto h-12 w-12 text-slate-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a1 1 0 011.414 0L15 17m0 0l-1.414-1.414a1 1 0 010-1.414l3.586-3.586a1 1 0 011.414 0L21 15m-7-7h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -438,12 +434,6 @@
                                     <p class="text-[10px] text-slate-500 mt-1">Recommended ratio 16:9 (Landscape)</p>
                                 </div>
                                 <input type="hidden" id="wind-base64">
-                            </div>
-                            <div class="mt-2 flex justify-end">
-                                <button type="button" onclick="loadSampleImage('wind', 'wind-preview-container', 'wind-base64')" class="text-xs font-semibold text-amber-500 hover:text-amber-400 transition-colors flex items-center">
-                                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                    Use Mock/Sample Image
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -592,13 +582,13 @@
                 <div class="mt-12 pt-8 border-t border-slate-200 pdf-avoid-break">
                     <div class="grid grid-cols-2 gap-8">
                         <div class="text-left">
-                            <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-8">Prepared & Verified By (PIC)</p>
-                            <div class="h-20 flex items-end">
+                            <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">Prepared & Verified By (PIC),</p>
+                            <div class="h-20 flex items-start mb-2">
                                 <img id="print-sig-image" alt="PIC Signature" class="max-h-20 object-contain" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
                             </div>
-                            <div class="w-48 border-t border-slate-900 mt-2 pt-1">
-                                <p id="print-prepared-by" class="font-bold text-slate-900 text-sm uppercase"></p>
-                                <p class="text-xs text-slate-500 font-semibold">Pilot In Command</p>
+                            <div class="inline-flex flex-col items-start">
+                                <p id="print-prepared-by" class="font-bold text-slate-900 text-sm uppercase border-b border-slate-900 pb-1 w-full"></p>
+                                <p class="text-xs text-slate-500 font-semibold mt-1">Pilot In Command</p>
                             </div>
                         </div>
                         <div class="text-right flex flex-col justify-end">
@@ -629,7 +619,7 @@
         let adminFormNo = "FM-OPS-01/REV.02"; // Fallback default
 
         // --- CONSTANTS ---
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyj8qWFdQdPvHzGBkBzbrf9-asYAcmkrWDAkq6dYyGxGfQD_jzRFjleHhVflFZIcntbDw/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzrxMkcT70MPK_YIhR_8owFez9KCZ_1ntbNSXxmlMEXKYGc_6GmigYI4NwaeoFlVmI1hw/exec";
         const BLANK_IMG = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         
         // Mock Images properly URI Encoded to prevent image loading errors
@@ -748,6 +738,10 @@
                     reportsList.forEach(r => {
                         if (r.date && r.date.includes('T')) {
                             r.date = r.date.split('T')[0];
+                        }
+                        // Fallback agar nama Prepared By selalu terisi menggunakan data PIC
+                        if (!r.preparedBy) {
+                            r.preparedBy = r.pic;
                         }
                     });
                 } else {
@@ -1088,7 +1082,7 @@
                         const container = document.getElementById(containerId);
                         container.innerHTML = `
                             <img src="${resultBase64}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Landscape preview">
-                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20">
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20 pointer-events-none">
                                 <span class="text-white text-xs font-bold bg-slate-900/80 px-3 py-1.5 rounded-lg">Change Image</span>
                             </div>
                         `;
@@ -1100,25 +1094,18 @@
             }
         }
 
-        function loadSampleImage(type, containerId, base64Id) {
-            let svgRaw = "";
-            if (type === 'weather') {
-                svgRaw = "<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'><rect width='100%' height='100%' fill='#1e293b'/><text x='50%' y='45%' fill='#38bdf8' font-size='22' font-family='sans-serif' text-anchor='middle' font-weight='bold'>SATELLITE WEATHER INFRARED MAP</text><text x='50%' y='55%' fill='#94a3b8' font-size='14' font-family='sans-serif' text-anchor='middle'>ECrew - Operation Division [MOCK]</text><path d='M100,250 Q150,120 300,220 T500,180 T700,280' fill='none' stroke='#38bdf8' stroke-width='4' stroke-dasharray='10,5'/><circle cx='300' cy='220' r='14' fill='#ef4444' opacity='0.7'/><circle cx='500' cy='180' r='10' fill='#eab308' opacity='0.7'/></svg>";
-            } else {
-                svgRaw = "<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'><rect width='100%' height='100%' fill='#0f172a'/><text x='50%' y='45%' fill='#fbbf24' font-size='22' font-family='sans-serif' text-anchor='middle' font-weight='bold'>WIND VECTOR &amp; TEMPERATURE CHART</text><text x='50%' y='55%' fill='#64748b' font-size='14' font-family='sans-serif' text-anchor='middle'>FL340 / Standard Upper Airways Route [MOCK]</text><line x1='150' y1='150' x2='250' y2='170' stroke='#fbbf24' stroke-width='3'/><polygon points='250,170 240,163 243,170 240,177' fill='#fbbf24'/><line x1='400' y1='250' x2='520' y2='230' stroke='#fbbf24' stroke-width='3'/><polygon points='520,230 510,223 513,230 510,237' fill='#fbbf24'/></svg>";
+        // --- NEW: FUNGSI KONVERSI GOOGLE DRIVE URL KE DIRECT IMAGE URL ---
+        function getDriveDirectUrl(url) {
+            if (!url) return BLANK_IMG;
+            // Jika URL adalah link Google Drive viewer biasa, ubah ke format direct download agar bisa dibaca tag <img>
+            if (url.includes('drive.google.com/file/d/')) {
+                const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+                }
             }
-
-            const sampleSvgEncoded = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svgRaw);
-            document.getElementById(base64Id).value = sampleSvgEncoded;
-            
-            const container = document.getElementById(containerId);
-            container.innerHTML = `
-                <img src="${sampleSvgEncoded}" class="w-full h-full object-cover rounded-lg absolute inset-0" alt="Sample map preview">
-                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20">
-                    <span class="text-white text-xs font-bold bg-slate-900/80 px-3 py-1.5 rounded-lg">Change Image</span>
-                </div>
-            `;
-            showNotification(`Successfully loaded sample ${type} image!`, "success");
+            // Jika bukan Drive (Base64 biasa), kembalikan aslinya
+            return url;
         }
 
         // Fungsi Edit Data Laporan tersimpan
@@ -1159,7 +1146,7 @@
             document.getElementById('form-metar').value = report.metar;
             document.getElementById('form-tafor').value = report.tafor;
             document.getElementById('form-notam').value = report.notam;
-            document.getElementById('form-prepared-by').value = report.preparedBy;
+            document.getElementById('form-prepared-by').value = report.preparedBy || report.pic || "";
             
             // Perbaikan nilai undefined menjadi string kosong
             document.getElementById('form-airways').value = report.airways || "";
@@ -1168,12 +1155,15 @@
             document.getElementById('weather-base64').value = report.weatherImg || "";
             document.getElementById('wind-base64').value = report.windImg || "";
 
+            const displayWeatherImg = getDriveDirectUrl(report.weatherImg);
+            const displayWindImg = getDriveDirectUrl(report.windImg);
+
             // Tampilkan pratinjau gambar satelit
             const weatherContainer = document.getElementById('weather-preview-container');
-            if (report.weatherImg) {
+            if (report.weatherImg && report.weatherImg !== BLANK_IMG) {
                 weatherContainer.innerHTML = `
-                    <img src="${report.weatherImg}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Weather preview">
-                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20">
+                    <img src="${displayWeatherImg}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Weather preview">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20 pointer-events-none">
                         <span class="text-white text-xs font-bold bg-slate-900/80 px-3 py-1.5 rounded-lg">Change Image</span>
                     </div>
                 `;
@@ -1187,10 +1177,10 @@
 
             // Tampilkan pratinjau gambar angin
             const windContainer = document.getElementById('wind-preview-container');
-            if (report.windImg) {
+            if (report.windImg && report.windImg !== BLANK_IMG) {
                 windContainer.innerHTML = `
-                    <img src="${report.windImg}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Wind preview">
-                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20">
+                    <img src="${displayWindImg}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Wind preview">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20 pointer-events-none">
                         <span class="text-white text-xs font-bold bg-slate-900/80 px-3 py-1.5 rounded-lg">Change Image</span>
                     </div>
                 `;
@@ -1257,7 +1247,7 @@
             document.getElementById('form-metar').value = report.metar;
             document.getElementById('form-tafor').value = report.tafor;
             document.getElementById('form-notam').value = report.notam;
-            document.getElementById('form-prepared-by').value = report.preparedBy;
+            document.getElementById('form-prepared-by').value = report.preparedBy || report.pic || "";
             
             // Perbaikan nilai undefined menjadi string kosong
             document.getElementById('form-airways').value = report.airways || "";
@@ -1266,12 +1256,15 @@
             document.getElementById('weather-base64').value = report.weatherImg || "";
             document.getElementById('wind-base64').value = report.windImg || "";
 
+            const displayWeatherImg = getDriveDirectUrl(report.weatherImg);
+            const displayWindImg = getDriveDirectUrl(report.windImg);
+
             // Tampilkan pratinjau gambar satelit
             const weatherContainer = document.getElementById('weather-preview-container');
-            if (report.weatherImg) {
+            if (report.weatherImg && report.weatherImg !== BLANK_IMG) {
                 weatherContainer.innerHTML = `
-                    <img src="${report.weatherImg}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Weather preview">
-                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20">
+                    <img src="${displayWeatherImg}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Weather preview">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20 pointer-events-none">
                         <span class="text-white text-xs font-bold bg-slate-900/80 px-3 py-1.5 rounded-lg">Change Image</span>
                     </div>
                 `;
@@ -1279,10 +1272,10 @@
 
             // Tampilkan pratinjau gambar angin
             const windContainer = document.getElementById('wind-preview-container');
-            if (report.windImg) {
+            if (report.windImg && report.windImg !== BLANK_IMG) {
                 windContainer.innerHTML = `
-                    <img src="${report.windImg}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Wind preview">
-                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20">
+                    <img src="${displayWindImg}" class="w-full h-full object-cover rounded-lg absolute inset-0 animate-fade-in" alt="Wind preview">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity rounded-lg z-20 pointer-events-none">
                         <span class="text-white text-xs font-bold bg-slate-900/80 px-3 py-1.5 rounded-lg">Change Image</span>
                     </div>
                 `;
@@ -1684,12 +1677,12 @@
             document.getElementById('print-tafor').textContent = report.tafor;
             document.getElementById('print-notam').textContent = report.notam;
 
-            document.getElementById('print-prepared-by').textContent = report.preparedBy;
+            document.getElementById('print-prepared-by').textContent = report.preparedBy || report.pic || "-";
             
             // Menyematkan SRC image secara aman agar tidak memicu empty src di HTML DOM
             const setSafeImage = (id, srcData) => {
                 const el = document.getElementById(id);
-                if (srcData) el.src = srcData;
+                if (srcData && srcData !== BLANK_IMG) el.src = getDriveDirectUrl(srcData);
                 else el.src = BLANK_IMG;
             };
 
@@ -1737,7 +1730,8 @@
                 console.error("Date formatting failed for PDF name, using default raw date.", e);
             }
 
-            const filenameStr = `Flight Release_${reg}_${formattedDate}_${dep} ${dst}.pdf`;
+            // MENGUBAH PREFIKS NAMA FILE MENJADI "Weather Report"
+            const filenameStr = `Weather Report_${reg}_${formattedDate}_${dep} ${dst}.pdf`;
 
             const opt = {
                 margin:       0.3,
