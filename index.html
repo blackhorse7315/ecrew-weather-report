@@ -574,16 +574,16 @@
                 </div>
 
                 <!-- Charts -->
-                <div class="space-y-6 mb-8 pdf-avoid-break">
+                <div class="space-y-8 mb-8">
                     <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-200 pb-1 mb-3">Weather & Wind Charts</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
+                    <div class="flex flex-col space-y-8">
+                        <div class="pdf-avoid-break">
                             <h4 class="text-xs font-bold text-slate-700 uppercase mb-2 text-center">Satellite Weather Map</h4>
-                            <img id="print-weather-img" alt="Weather Chart" class="w-full h-auto border border-slate-300 rounded object-contain bg-slate-100" style="max-height: 250px;" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                            <img id="print-weather-img" alt="Weather Chart" class="w-full h-auto border border-slate-300 rounded object-contain bg-slate-100" style="max-height: 450px;" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
                         </div>
-                        <div>
+                        <div class="pdf-avoid-break">
                             <h4 class="text-xs font-bold text-slate-700 uppercase mb-2 text-center">Upper Wind Vector</h4>
-                            <img id="print-wind-img" alt="Wind Chart" class="w-full h-auto border border-slate-300 rounded object-contain bg-slate-100" style="max-height: 250px;" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                            <img id="print-wind-img" alt="Wind Chart" class="w-full h-auto border border-slate-300 rounded object-contain bg-slate-100" style="max-height: 450px;" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
                         </div>
                     </div>
                 </div>
@@ -629,7 +629,7 @@
         let adminFormNo = "FM-OPS-01/REV.02"; // Fallback default
 
         // --- CONSTANTS ---
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx1zZN4BBKezcOsoCk8whiCgw_lHlrRNLTabHziLYuhEGdWTa6MQG3wC0gXdAnN7cd3rg/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyj8qWFdQdPvHzGBkBzbrf9-asYAcmkrWDAkq6dYyGxGfQD_jzRFjleHhVflFZIcntbDw/exec";
         const BLANK_IMG = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         
         // Mock Images properly URI Encoded to prevent image loading errors
@@ -717,15 +717,16 @@
             }
 
             try {
+                // Modifikasi opsi fetch untuk menghindari CORS Preflight
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'GET',
-                    redirect: 'follow',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    method: 'GET'
                 });
 
                 if (!response.ok) {
+                    // Deteksi khusus jika Google Script mengembalikan 404
+                    if (response.status === 404) {
+                        throw new Error("HTTP Error 404: Link Web App tidak ditemukan atau telah dihapus. Silakan Deploy Ulang Google Apps Script Anda sebagai Web App baru.");
+                    }
                     throw new Error(`HTTP Error: ${response.status}`);
                 }
 
@@ -760,8 +761,15 @@
                 showNotification("Database berhasil disinkronisasi!", "success");
 
             } catch (error) {
-                console.error("Gagal menarik data dari Google Sheets. Ini biasanya karena error CORS. Pastikan saat Deploy Web App, 'Who has access' disetel ke 'Anyone', BUKAN 'Anyone with Google account'. Detail:", error);
-                showNotification("Gagal terhubung ke Cloud. Memuat data lokal...", "error");
+                console.error("Gagal menarik data dari Google Sheets. Detail:", error);
+                
+                // Berikan notifikasi yang sangat jelas jika itu 404
+                let toastMsg = "Gagal terhubung ke Cloud. Memuat data lokal...";
+                if (error.message.includes("404")) {
+                    toastMsg = "Error 404: URL Web App mati/kadaluarsa. Anda wajib Deploy Ulang script Anda!";
+                }
+                
+                showNotification(toastMsg, "error");
                 loadFallbackData();
             } finally {
                 // Sembunyikan layar loading
